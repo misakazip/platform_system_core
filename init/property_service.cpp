@@ -585,6 +585,12 @@ static int auto_reboot_handle_property_set(const std::string& value) {
         return PROP_SUCCESS;
     }
 
+    if (value == "reboot_now") {
+        LOG(INFO) << "auto_reboot: reboot_now requested, rebooting";
+        trigger_shutdown("reboot");
+        return PROP_SUCCESS;
+    }
+
     int duration_sec = atoi(value.c_str()); // std::stoi can throw
     if (duration_sec <= 0 || (uint64_t) duration_sec > (uint64_t) std::numeric_limits<time_t>::max()) {
         LOG(WARNING) << "auto_reboot: invalid prop value: " << value;
